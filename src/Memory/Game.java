@@ -5,8 +5,13 @@
  */
 package Memory;
 
+import java.awt.Image;
+import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
@@ -20,6 +25,9 @@ public class Game extends javax.swing.JFrame {
     private final Mazzo mazzo;
     
     private final ImageIcon[] icone;
+    
+    private Image logo;
+    
     
     private final JButton[] pulsanti;
     
@@ -50,6 +58,13 @@ public class Game extends javax.swing.JFrame {
         
         icone = new ImageIcon[(N_CARTE / 2) + 1];
         genIcon();
+        
+        try {
+            logo = ImageIO.read(getClass().getResource("/Memory/img/logo.png"));
+        } catch (IOException ex) {
+            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        setIconImage(logo);
         
         pulsanti = new JButton[] {btnCard1, btnCard2, btnCard3, btnCard4, btnCard5, btnCard6, btnCard7, btnCard8, btnCard9, btnCard10, btnCard11, btnCard12, btnCard13, btnCard14, btnCard15, btnCard16};
     }
@@ -91,9 +106,12 @@ public class Game extends javax.swing.JFrame {
         lblPlayer1 = new javax.swing.JLabel();
         lblTurno = new javax.swing.JLabel();
         btnReset = new javax.swing.JButton();
+        lblEnd = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Memory");
+        setIconImages(null);
+        setResizable(false);
 
         btnCard1.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
         btnCard1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Memory/img/8.png"))); // NOI18N
@@ -238,6 +256,9 @@ public class Game extends javax.swing.JFrame {
             }
         });
 
+        lblEnd.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
+        lblEnd.setForeground(new java.awt.Color(0, 0, 255));
+
         javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
         panel.setLayout(panelLayout);
         panelLayout.setHorizontalGroup(
@@ -246,7 +267,10 @@ public class Game extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblPlayer2)
-                    .addComponent(lblTurno)
+                    .addGroup(panelLayout.createSequentialGroup()
+                        .addComponent(lblTurno)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblEnd))
                     .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addGroup(panelLayout.createSequentialGroup()
                             .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -255,17 +279,17 @@ public class Game extends javax.swing.JFrame {
                             .addGap(18, 18, 18)
                             .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(panelLayout.createSequentialGroup()
-                                    .addComponent(btnCard2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(btnCard3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(btnCard4, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(panelLayout.createSequentialGroup()
                                     .addComponent(btnCard6, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(18, 18, 18)
                                     .addComponent(btnCard7, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(18, 18, 18)
-                                    .addComponent(btnCard8, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(btnCard8, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(panelLayout.createSequentialGroup()
+                                    .addComponent(btnCard2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(btnCard3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(btnCard4, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLayout.createSequentialGroup()
                             .addComponent(lblPlayer1)
                             .addGap(0, 0, Short.MAX_VALUE)
@@ -303,7 +327,9 @@ public class Game extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblPlayer2)
                 .addGap(18, 18, 18)
-                .addComponent(lblTurno)
+                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblTurno)
+                    .addComponent(lblEnd))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnCard1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -379,6 +405,8 @@ public class Game extends javax.swing.JFrame {
             pulsanti[i].setIcon(icone[8]);
         }
         
+        lblEnd.setText("");
+        
         update();
     }//GEN-LAST:event_btnResetActionPerformed
 
@@ -404,6 +432,7 @@ public class Game extends javax.swing.JFrame {
                 gira();
             }
         }
+        
         update();
     }//GEN-LAST:event_btnCard1ActionPerformed
 
@@ -429,6 +458,7 @@ public class Game extends javax.swing.JFrame {
                 gira();
             }
         }
+        
         update();
     }//GEN-LAST:event_btnCard4ActionPerformed
 
@@ -454,6 +484,7 @@ public class Game extends javax.swing.JFrame {
                 gira();
             }
         }
+        
         update();
     }//GEN-LAST:event_btnCard11ActionPerformed
 
@@ -479,6 +510,7 @@ public class Game extends javax.swing.JFrame {
                 gira();
             }
         }
+        
         update();
     }//GEN-LAST:event_btnCard2ActionPerformed
 
@@ -504,6 +536,7 @@ public class Game extends javax.swing.JFrame {
                 gira();
             }
         }
+        
         update();
     }//GEN-LAST:event_btnCard3ActionPerformed
 
@@ -529,6 +562,7 @@ public class Game extends javax.swing.JFrame {
                 gira();
             }
         }
+        
         update();
     }//GEN-LAST:event_btnCard5ActionPerformed
 
@@ -554,6 +588,7 @@ public class Game extends javax.swing.JFrame {
                 gira();
             }
         }
+        
         update();
     }//GEN-LAST:event_btnCard6ActionPerformed
 
@@ -579,6 +614,7 @@ public class Game extends javax.swing.JFrame {
                 gira();
             }
         }
+        
         update();
     }//GEN-LAST:event_btnCard7ActionPerformed
 
@@ -604,6 +640,7 @@ public class Game extends javax.swing.JFrame {
                 gira();
             }
         }
+        
         update();
     }//GEN-LAST:event_btnCard8ActionPerformed
 
@@ -629,6 +666,7 @@ public class Game extends javax.swing.JFrame {
                 gira();
             }
         }
+        
         update();
     }//GEN-LAST:event_btnCard9ActionPerformed
 
@@ -654,6 +692,7 @@ public class Game extends javax.swing.JFrame {
                 gira();
             }
         }
+        
         update();
     }//GEN-LAST:event_btnCard10ActionPerformed
 
@@ -679,6 +718,7 @@ public class Game extends javax.swing.JFrame {
                 gira();
             }
         }
+        
         update();
     }//GEN-LAST:event_btnCard12ActionPerformed
 
@@ -704,6 +744,7 @@ public class Game extends javax.swing.JFrame {
                 gira();
             }
         }
+        
         update();
     }//GEN-LAST:event_btnCard13ActionPerformed
 
@@ -729,6 +770,7 @@ public class Game extends javax.swing.JFrame {
                 gira();
             }
         }
+        
         update();
     }//GEN-LAST:event_btnCard14ActionPerformed
 
@@ -754,6 +796,7 @@ public class Game extends javax.swing.JFrame {
                 gira();
             }
         }
+        
         update();
     }//GEN-LAST:event_btnCard15ActionPerformed
 
@@ -779,6 +822,7 @@ public class Game extends javax.swing.JFrame {
                 gira();
             }
         }
+        
         update();
     }//GEN-LAST:event_btnCard16ActionPerformed
 
@@ -809,10 +853,10 @@ public class Game extends javax.swing.JFrame {
                 
                 update();
                 
+                timer.cancel();
+                
                 unLock = true;
                 prima = true;
-                
-                timer.cancel();
             }
         }, 3000);
     }
@@ -823,6 +867,8 @@ public class Game extends javax.swing.JFrame {
                 lblPlayer1.setText("PUNTEGGIO GIOCATORE 1: WINNER WINNER CHICKEN DINNER");
             else 
                 lblPlayer2.setText("PUNTEGGIO GIOCATORE 2: WINNER WINNER CHICKEN DINNER");
+            
+            lblEnd.setText("Premi 'reset' per ricominciare!");
         }
         else {
             lblPlayer1.setText("PUNTEGGIO GIOCATORE 1: " + player1Score);
@@ -888,6 +934,7 @@ public class Game extends javax.swing.JFrame {
     private javax.swing.JButton btnCard8;
     private javax.swing.JButton btnCard9;
     private javax.swing.JButton btnReset;
+    private javax.swing.JLabel lblEnd;
     private javax.swing.JLabel lblPlayer1;
     private javax.swing.JLabel lblPlayer2;
     private javax.swing.JLabel lblTurno;
