@@ -51,7 +51,9 @@ public final class Mazzo {
             mazzo[j] = card;
             j++;
         }
+        
         //DEBUG
+        System.out.println("Nuovo campo:");
         for(i = 0; i < this.N; i++){
             for(j = 0; j < this.N; j++) {
                 if(mazzo[j].getPos() == i) {

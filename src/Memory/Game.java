@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -27,7 +28,6 @@ public class Game extends javax.swing.JFrame {
     private final ImageIcon[] icone;
     
     private Image logo;
-    
     
     private final JButton[] pulsanti;
     
@@ -836,7 +836,8 @@ public class Game extends javax.swing.JFrame {
         unLock = true;
         prima = true;
         
-        update();
+        if(player1Score + player2Score != 8)
+            update();
     }
     
     public void gira () {
@@ -863,10 +864,14 @@ public class Game extends javax.swing.JFrame {
     
     public void update () {
         if(player1Score + player2Score == 8){
-            if(player1Score > player2Score)
+            if(player1Score > player2Score){
                 lblPlayer1.setText("PUNTEGGIO GIOCATORE 1: WINNER WINNER CHICKEN DINNER");
-            else 
+                JOptionPane.showMessageDialog(rootPane, "Il giocatore 1 ha vinto!");
+            }
+            else {
                 lblPlayer2.setText("PUNTEGGIO GIOCATORE 2: WINNER WINNER CHICKEN DINNER");
+                JOptionPane.showMessageDialog(rootPane, "Il giocatore 2 ha vinto!");
+            }
             
             lblEnd.setText("Premi 'reset' per ricominciare!");
         }
@@ -910,6 +915,7 @@ public class Game extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new Game().setVisible(true);
             }
