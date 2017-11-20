@@ -38,14 +38,22 @@ public class Game extends javax.swing.JFrame {
     private Carta card1;
     private Carta card2;
     
+    private String player1Name;
+    private String player2Name;
+    
     private int player1Score;
     private int player2Score;
     
     /**
      * Creates new form Game
+     * @param player1
+     * @param player2
      */
-    public Game() {
+    public Game(String player1, String player2) {
         initComponents();
+        
+        this.player1Name = player1;
+        this.player2Name = player2;
         
         this.player1 = true;
         this.prima = true;
@@ -67,13 +75,15 @@ public class Game extends javax.swing.JFrame {
         setIconImage(logo);
         
         pulsanti = new JButton[] {btnCard1, btnCard2, btnCard3, btnCard4, btnCard5, btnCard6, btnCard7, btnCard8, btnCard9, btnCard10, btnCard11, btnCard12, btnCard13, btnCard14, btnCard15, btnCard16};
+    
+        update();
     }
     
     private void genIcon() {
         int i;
         
         for(i = 0; i < (N_CARTE / 2) + 1; i++)
-            icone[i] = new ImageIcon(getClass().getResource("/Memory/img/" + i + ".png"));
+            icone[i] = new ImageIcon(getClass().getResource("/Memory/img/" + i + ".jpg"));
     }
     
     /**
@@ -106,16 +116,15 @@ public class Game extends javax.swing.JFrame {
         lblPlayer1 = new javax.swing.JLabel();
         lblTurno = new javax.swing.JLabel();
         btnReset = new javax.swing.JButton();
-        lblEnd = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Memory");
+        setTitle("Memory: OverWatch Edition");
         setIconImages(null);
         setResizable(false);
 
         btnCard1.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
-        btnCard1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Memory/img/8.png"))); // NOI18N
-        btnCard1.setPreferredSize(new java.awt.Dimension(50, 50));
+        btnCard1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Memory/img/8.jpg"))); // NOI18N
+        btnCard1.setPreferredSize(new java.awt.Dimension(100, 100));
         btnCard1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCard1ActionPerformed(evt);
@@ -123,7 +132,8 @@ public class Game extends javax.swing.JFrame {
         });
 
         btnCard2.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
-        btnCard2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Memory/img/8.png"))); // NOI18N
+        btnCard2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Memory/img/8.jpg"))); // NOI18N
+        btnCard2.setPreferredSize(new java.awt.Dimension(100, 100));
         btnCard2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCard2ActionPerformed(evt);
@@ -131,7 +141,8 @@ public class Game extends javax.swing.JFrame {
         });
 
         btnCard3.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
-        btnCard3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Memory/img/8.png"))); // NOI18N
+        btnCard3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Memory/img/8.jpg"))); // NOI18N
+        btnCard3.setPreferredSize(new java.awt.Dimension(100, 100));
         btnCard3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCard3ActionPerformed(evt);
@@ -139,7 +150,8 @@ public class Game extends javax.swing.JFrame {
         });
 
         btnCard4.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
-        btnCard4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Memory/img/8.png"))); // NOI18N
+        btnCard4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Memory/img/8.jpg"))); // NOI18N
+        btnCard4.setPreferredSize(new java.awt.Dimension(100, 100));
         btnCard4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCard4ActionPerformed(evt);
@@ -147,7 +159,8 @@ public class Game extends javax.swing.JFrame {
         });
 
         btnCard5.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
-        btnCard5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Memory/img/8.png"))); // NOI18N
+        btnCard5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Memory/img/8.jpg"))); // NOI18N
+        btnCard5.setPreferredSize(new java.awt.Dimension(100, 100));
         btnCard5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCard5ActionPerformed(evt);
@@ -155,7 +168,8 @@ public class Game extends javax.swing.JFrame {
         });
 
         btnCard6.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
-        btnCard6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Memory/img/8.png"))); // NOI18N
+        btnCard6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Memory/img/8.jpg"))); // NOI18N
+        btnCard6.setPreferredSize(new java.awt.Dimension(100, 100));
         btnCard6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCard6ActionPerformed(evt);
@@ -163,7 +177,8 @@ public class Game extends javax.swing.JFrame {
         });
 
         btnCard7.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
-        btnCard7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Memory/img/8.png"))); // NOI18N
+        btnCard7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Memory/img/8.jpg"))); // NOI18N
+        btnCard7.setPreferredSize(new java.awt.Dimension(100, 100));
         btnCard7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCard7ActionPerformed(evt);
@@ -171,7 +186,8 @@ public class Game extends javax.swing.JFrame {
         });
 
         btnCard8.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
-        btnCard8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Memory/img/8.png"))); // NOI18N
+        btnCard8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Memory/img/8.jpg"))); // NOI18N
+        btnCard8.setPreferredSize(new java.awt.Dimension(100, 100));
         btnCard8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCard8ActionPerformed(evt);
@@ -179,7 +195,8 @@ public class Game extends javax.swing.JFrame {
         });
 
         btnCard9.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
-        btnCard9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Memory/img/8.png"))); // NOI18N
+        btnCard9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Memory/img/8.jpg"))); // NOI18N
+        btnCard9.setPreferredSize(new java.awt.Dimension(100, 100));
         btnCard9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCard9ActionPerformed(evt);
@@ -187,7 +204,8 @@ public class Game extends javax.swing.JFrame {
         });
 
         btnCard10.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
-        btnCard10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Memory/img/8.png"))); // NOI18N
+        btnCard10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Memory/img/8.jpg"))); // NOI18N
+        btnCard10.setPreferredSize(new java.awt.Dimension(100, 100));
         btnCard10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCard10ActionPerformed(evt);
@@ -195,7 +213,8 @@ public class Game extends javax.swing.JFrame {
         });
 
         btnCard11.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
-        btnCard11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Memory/img/8.png"))); // NOI18N
+        btnCard11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Memory/img/8.jpg"))); // NOI18N
+        btnCard11.setPreferredSize(new java.awt.Dimension(100, 100));
         btnCard11.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCard11ActionPerformed(evt);
@@ -203,7 +222,8 @@ public class Game extends javax.swing.JFrame {
         });
 
         btnCard12.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
-        btnCard12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Memory/img/8.png"))); // NOI18N
+        btnCard12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Memory/img/8.jpg"))); // NOI18N
+        btnCard12.setPreferredSize(new java.awt.Dimension(100, 100));
         btnCard12.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCard12ActionPerformed(evt);
@@ -211,7 +231,8 @@ public class Game extends javax.swing.JFrame {
         });
 
         btnCard13.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
-        btnCard13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Memory/img/8.png"))); // NOI18N
+        btnCard13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Memory/img/8.jpg"))); // NOI18N
+        btnCard13.setPreferredSize(new java.awt.Dimension(100, 100));
         btnCard13.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCard13ActionPerformed(evt);
@@ -219,7 +240,8 @@ public class Game extends javax.swing.JFrame {
         });
 
         btnCard14.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
-        btnCard14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Memory/img/8.png"))); // NOI18N
+        btnCard14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Memory/img/8.jpg"))); // NOI18N
+        btnCard14.setPreferredSize(new java.awt.Dimension(100, 100));
         btnCard14.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCard14ActionPerformed(evt);
@@ -227,7 +249,8 @@ public class Game extends javax.swing.JFrame {
         });
 
         btnCard15.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
-        btnCard15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Memory/img/8.png"))); // NOI18N
+        btnCard15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Memory/img/8.jpg"))); // NOI18N
+        btnCard15.setPreferredSize(new java.awt.Dimension(100, 100));
         btnCard15.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCard15ActionPerformed(evt);
@@ -235,17 +258,21 @@ public class Game extends javax.swing.JFrame {
         });
 
         btnCard16.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
-        btnCard16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Memory/img/8.png"))); // NOI18N
+        btnCard16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Memory/img/8.jpg"))); // NOI18N
+        btnCard16.setPreferredSize(new java.awt.Dimension(100, 100));
         btnCard16.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCard16ActionPerformed(evt);
             }
         });
 
+        lblPlayer2.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         lblPlayer2.setText("PUNTEGGIO GIOCATORE 2: 0");
 
+        lblPlayer1.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         lblPlayer1.setText("PUNTEGGIO GIOCATORE 1: 0");
 
+        lblTurno.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         lblTurno.setForeground(new java.awt.Color(255, 0, 0));
         lblTurno.setText("TURNO GIOCATORE: 1");
 
@@ -256,9 +283,6 @@ public class Game extends javax.swing.JFrame {
             }
         });
 
-        lblEnd.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
-        lblEnd.setForeground(new java.awt.Color(0, 0, 255));
-
         javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
         panel.setLayout(panelLayout);
         panelLayout.setHorizontalGroup(
@@ -267,10 +291,7 @@ public class Game extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblPlayer2)
-                    .addGroup(panelLayout.createSequentialGroup()
-                        .addComponent(lblTurno)
-                        .addGap(18, 18, 18)
-                        .addComponent(lblEnd))
+                    .addComponent(lblTurno)
                     .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addGroup(panelLayout.createSequentialGroup()
                             .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -327,38 +348,36 @@ public class Game extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblPlayer2)
                 .addGap(18, 18, 18)
-                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblTurno)
-                    .addComponent(lblEnd))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblTurno)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnCard1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCard2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCard3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCard4, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnCard1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCard2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCard3, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCard4, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnCard5, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCard8, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCard6, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCard7, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnCard5, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCard8, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCard6, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCard7, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelLayout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnCard10, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnCard9, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(btnCard10, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnCard9, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(panelLayout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnCard12, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnCard11, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(btnCard12, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnCard11, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(18, 18, 18)
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnCard13, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCard16, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCard14, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCard15, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnCard13, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCard16, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCard14, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCard15, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -400,12 +419,12 @@ public class Game extends javax.swing.JFrame {
         this.card1 = null;
         this.card2 = null;
         
+        lblTurno.setForeground(new java.awt.Color(255, 0, 0));
+        
         for(int i = 0; i < N_CARTE; i++){
             pulsanti[i].setEnabled(true);
             pulsanti[i].setIcon(icone[8]);
         }
-        
-        lblEnd.setText("");
         
         update();
     }//GEN-LAST:event_btnResetActionPerformed
@@ -865,61 +884,27 @@ public class Game extends javax.swing.JFrame {
     public void update () {
         if(player1Score + player2Score == 8){
             if(player1Score > player2Score){
-                lblPlayer1.setText("PUNTEGGIO GIOCATORE 1: WINNER WINNER CHICKEN DINNER");
-                JOptionPane.showMessageDialog(rootPane, "Il giocatore 1 ha vinto!");
+                lblPlayer1.setText("Punteggio di " + player1Name + ": WINNER WINNER CHICKEN DINNER");
+                JOptionPane.showMessageDialog(rootPane, player1Name + " ha vinto!", "WINNER WINNER CHICKEN DINNER", 1);
             }
             else {
-                lblPlayer2.setText("PUNTEGGIO GIOCATORE 2: WINNER WINNER CHICKEN DINNER");
-                JOptionPane.showMessageDialog(rootPane, "Il giocatore 2 ha vinto!");
+                lblPlayer2.setText("Punteggio di " + player2Name + ": WINNER WINNER CHICKEN DINNER");
+                JOptionPane.showMessageDialog(rootPane, player2Name + " ha vinto!", "WINNER WINNER CHICKEN DINNER", 1);
             }
-            
-            lblEnd.setText("Premi 'reset' per ricominciare!");
+            lblTurno.setForeground(new java.awt.Color(0, 0, 255));
+            lblTurno.setText("Premi 'reset' per ricominciare!");
         }
         else {
-            lblPlayer1.setText("PUNTEGGIO GIOCATORE 1: " + player1Score);
-            lblPlayer2.setText("PUNTEGGIO GIOCATORE 2: " + player2Score);
+            lblPlayer1.setText("Punteggio di " + player1Name + ": " + player1Score);
+            lblPlayer2.setText("Punteggio di " + player2Name + ": " + player2Score);
+            
+            if(player1)
+                lblTurno.setText("Turno di " + player1Name);
+            else
+                lblTurno.setText("Turno di " + player2Name);
         }
             
-        if(player1)
-            lblTurno.setText("TURNO GIOCATORE: 1");
-        else
-            lblTurno.setText("TURNO GIOCATORE: 2");
-    }
-    
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Windows".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Game.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Game.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Game.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Game.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new Game().setVisible(true);
-            }
-        });
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -940,7 +925,6 @@ public class Game extends javax.swing.JFrame {
     private javax.swing.JButton btnCard8;
     private javax.swing.JButton btnCard9;
     private javax.swing.JButton btnReset;
-    private javax.swing.JLabel lblEnd;
     private javax.swing.JLabel lblPlayer1;
     private javax.swing.JLabel lblPlayer2;
     private javax.swing.JLabel lblTurno;
