@@ -42,6 +42,7 @@ public class Start extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        btnGroup = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         lblTitle = new javax.swing.JLabel();
         lblIstruzione = new javax.swing.JLabel();
@@ -49,8 +50,12 @@ public class Start extends javax.swing.JFrame {
         txtPlayer1 = new javax.swing.JTextField();
         lblPlayer2 = new javax.swing.JLabel();
         txtPlayer2 = new javax.swing.JTextField();
+        radio1 = new javax.swing.JRadioButton();
+        radio3 = new javax.swing.JRadioButton();
+        radio5 = new javax.swing.JRadioButton();
         btnPlay = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
+        lblError = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Memory: OverWatch Edition");
@@ -64,6 +69,16 @@ public class Start extends javax.swing.JFrame {
         lblPlayer1.setText("Giocatore 1:");
 
         lblPlayer2.setText("Giocatore 2:");
+
+        btnGroup.add(radio1);
+        radio1.setSelected(true);
+        radio1.setText("Al meglio del 1");
+
+        btnGroup.add(radio3);
+        radio3.setText("Al meglio delle 3");
+
+        btnGroup.add(radio5);
+        radio5.setText("Al meglio delle 5");
 
         btnPlay.setText("Gioca!");
         btnPlay.addActionListener(new java.awt.event.ActionListener() {
@@ -79,17 +94,25 @@ public class Start extends javax.swing.JFrame {
             }
         });
 
+        lblError.setForeground(new java.awt.Color(255, 0, 0));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(59, Short.MAX_VALUE)
                 .addComponent(lblTitle)
                 .addGap(65, 65, 65))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(radio1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(radio3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(radio5))
                     .addComponent(lblIstruzione)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(lblPlayer1)
@@ -102,8 +125,9 @@ public class Start extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnPlay)
                         .addGap(18, 18, 18)
-                        .addComponent(btnCancel)))
-                .addContainerGap(132, Short.MAX_VALUE))
+                        .addComponent(btnCancel))
+                    .addComponent(lblError))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -120,11 +144,18 @@ public class Start extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblPlayer2)
                     .addComponent(txtPlayer2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(radio1)
+                    .addComponent(radio3)
+                    .addComponent(radio5))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnPlay)
                     .addComponent(btnCancel))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                .addComponent(lblError)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -156,10 +187,23 @@ public class Start extends javax.swing.JFrame {
         String player1 = txtPlayer1.getText();
         String player2 = txtPlayer2.getText();
         
-        this.setVisible(false);
+        if(player1.isEmpty() || player2.isEmpty())
+            lblError.setText("Manca uno dei due nomi!");
         
-        Game gioco = new Game(player1, player2);
-        gioco.setVisible(true);
+        else {
+            int round;
+            if(radio1.isSelected())
+                round = 1;
+            else if(radio3.isSelected())
+                round = 3;
+            else
+                round = 5;
+
+            this.setVisible(false);
+
+            Game gioco = new Game(player1, player2, round);
+            gioco.setVisible(true);
+        }
     }//GEN-LAST:event_btnPlayActionPerformed
 
     /**
@@ -199,12 +243,17 @@ public class Start extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
+    private javax.swing.ButtonGroup btnGroup;
     private javax.swing.JButton btnPlay;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblError;
     private javax.swing.JLabel lblIstruzione;
     private javax.swing.JLabel lblPlayer1;
     private javax.swing.JLabel lblPlayer2;
     private javax.swing.JLabel lblTitle;
+    private javax.swing.JRadioButton radio1;
+    private javax.swing.JRadioButton radio3;
+    private javax.swing.JRadioButton radio5;
     private javax.swing.JTextField txtPlayer1;
     private javax.swing.JTextField txtPlayer2;
     // End of variables declaration//GEN-END:variables
