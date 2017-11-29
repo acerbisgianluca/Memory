@@ -352,405 +352,79 @@ public class Game extends javax.swing.JFrame {
     }//GEN-LAST:event_btnResetActionPerformed
 
     private void btnCard1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCard1ActionPerformed
-        if(prima) {
-            card1 = mazzo.cercaCarta(0);
-            btnCard1.setIcon(icone[card1.getCode()]);
-            prima = false;
-        }
-        else if (unLock && card1.getPos() != 0) {
-            unLock = false;
-            card2 = mazzo.cercaCarta(0);
-            btnCard1.setIcon(icone[card2.getCode()]);
-            if(card1.equals(card2)) {
-                if(player1)
-                    player1Score++;
-                else
-                    player2Score++;
-                
-                nascondi();
-            }
-            else {
-                gira();
-            }
-        }
-        
-        update();
+        pressButton(btnCard1, 0);
     }//GEN-LAST:event_btnCard1ActionPerformed
 
     private void btnCard4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCard4ActionPerformed
-        if(prima) {
-            card1 = mazzo.cercaCarta(3);
-            btnCard4.setIcon(icone[card1.getCode()]);
-            prima = false;
-        }
-        else if (unLock && card1.getPos() != 3) {
-            unLock = false;
-            card2 = mazzo.cercaCarta(3);
-            btnCard4.setIcon(icone[card2.getCode()]);
-            if(card1.equals(card2)) {
-                if(player1)
-                    player1Score++;
-                else
-                    player2Score++;
-                
-                nascondi();
-            }
-            else {
-                gira();
-            }
-        }
-        
-        update();
+        pressButton(btnCard4, 3);
     }//GEN-LAST:event_btnCard4ActionPerformed
 
     private void btnCard11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCard11ActionPerformed
-        if(prima) {
-            card1 = mazzo.cercaCarta(10);
-            btnCard11.setIcon(icone[card1.getCode()]);
-            prima = false;
-        }
-        else if (unLock && card1.getPos() != 10) {
-            unLock = false;
-            card2 = mazzo.cercaCarta(10);
-            btnCard11.setIcon(icone[card2.getCode()]);
-            if(card1.equals(card2)) {
-                if(player1)
-                    player1Score++;
-                else
-                    player2Score++;
-                
-                nascondi();
-            }
-            else {
-                gira();
-            }
-        }
-        
-        update();
+        pressButton(btnCard11, 10);
     }//GEN-LAST:event_btnCard11ActionPerformed
 
     private void btnCard2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCard2ActionPerformed
-        if(prima) {
-            card1 = mazzo.cercaCarta(1);
-            btnCard2.setIcon(icone[card1.getCode()]);
-            prima = false;
-        }
-        else if (unLock && card1.getPos() != 1) {
-            unLock = false;
-            card2 = mazzo.cercaCarta(1);
-            btnCard2.setIcon(icone[card2.getCode()]);
-            if(card1.equals(card2)) {
-                if(player1)
-                    player1Score++;
-                else
-                    player2Score++;
-                
-                nascondi();
-            }
-            else {
-                gira();
-            }
-        }
-        
-        update();
+        pressButton(btnCard2, 1);
     }//GEN-LAST:event_btnCard2ActionPerformed
 
     private void btnCard3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCard3ActionPerformed
-        if(prima) {
-            card1 = mazzo.cercaCarta(2);
-            btnCard3.setIcon(icone[card1.getCode()]);
-            prima = false;
-        }
-        else if (unLock && card1.getPos() != 2) {
-            unLock = false;
-            card2 = mazzo.cercaCarta(2);
-            btnCard3.setIcon(icone[card2.getCode()]);
-            if(card1.equals(card2)) {
-                if(player1)
-                    player1Score++;
-                else
-                    player2Score++;
-                
-                nascondi();
-            }
-            else {
-                gira();
-            }
-        }
-        
-        update();
+        pressButton(btnCard3, 2);
     }//GEN-LAST:event_btnCard3ActionPerformed
 
     private void btnCard5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCard5ActionPerformed
-        if(prima) {
-            card1 = mazzo.cercaCarta(4);
-            btnCard5.setIcon(icone[card1.getCode()]);
-            prima = false;
-        }
-        else if (unLock && card1.getPos() != 4) {
-            unLock = false;
-            card2 = mazzo.cercaCarta(4);
-            btnCard5.setIcon(icone[card2.getCode()]);
-            if(card1.equals(card2)) {
-                if(player1)
-                    player1Score++;
-                else
-                    player2Score++;
-                
-                nascondi();
-            }
-            else {
-                gira();
-            }
-        }
-        
-        update();
+        pressButton(btnCard5, 4);
     }//GEN-LAST:event_btnCard5ActionPerformed
 
     private void btnCard6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCard6ActionPerformed
-        if(prima) {
-            card1 = mazzo.cercaCarta(5);
-            btnCard6.setIcon(icone[card1.getCode()]);
-            prima = false;
-        }
-        else if (unLock && card1.getPos() != 5) {
-            unLock = false;
-            card2 = mazzo.cercaCarta(5);
-            btnCard6.setIcon(icone[card2.getCode()]);
-            if(card1.equals(card2)) {
-                if(player1)
-                    player1Score++;
-                else
-                    player2Score++;
-                
-                nascondi();
-            }
-            else {
-                gira();
-            }
-        }
-        
-        update();
+        pressButton(btnCard6, 5);
     }//GEN-LAST:event_btnCard6ActionPerformed
 
     private void btnCard7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCard7ActionPerformed
-        if(prima) {
-            card1 = mazzo.cercaCarta(6);
-            btnCard7.setIcon(icone[card1.getCode()]);
-            prima = false;
-        }
-        else if (unLock && card1.getPos() != 6) {
-            unLock = false;
-            card2 = mazzo.cercaCarta(6);
-            btnCard7.setIcon(icone[card2.getCode()]);
-            if(card1.equals(card2)) {
-                if(player1)
-                    player1Score++;
-                else
-                    player2Score++;
-                
-                nascondi();
-            }
-            else {
-                gira();
-            }
-        }
-        
-        update();
+        pressButton(btnCard7, 6);
     }//GEN-LAST:event_btnCard7ActionPerformed
 
     private void btnCard8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCard8ActionPerformed
-        if(prima) {
-            card1 = mazzo.cercaCarta(7);
-            btnCard8.setIcon(icone[card1.getCode()]);
-            prima = false;
-        }
-        else if (unLock && card1.getPos() != 7) {
-            unLock = false;
-            card2 = mazzo.cercaCarta(7);
-            btnCard8.setIcon(icone[card2.getCode()]);
-            if(card1.equals(card2)) {
-                if(player1)
-                    player1Score++;
-                else
-                    player2Score++;
-                
-                nascondi();
-            }
-            else {
-                gira();
-            }
-        }
-        
-        update();
+        pressButton(btnCard8, 7);
     }//GEN-LAST:event_btnCard8ActionPerformed
 
     private void btnCard9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCard9ActionPerformed
-        if(prima) {
-            card1 = mazzo.cercaCarta(8);
-            btnCard9.setIcon(icone[card1.getCode()]);
-            prima = false;
-        }
-        else if (unLock && card1.getPos() != 8) {
-            unLock = false;
-            card2 = mazzo.cercaCarta(8);
-            btnCard9.setIcon(icone[card2.getCode()]);
-            if(card1.equals(card2)) {
-                if(player1)
-                    player1Score++;
-                else
-                    player2Score++;
-                
-                nascondi();
-            }
-            else {
-                gira();
-            }
-        }
-        
-        update();
+        pressButton(btnCard9, 8);
     }//GEN-LAST:event_btnCard9ActionPerformed
 
     private void btnCard10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCard10ActionPerformed
-        if(prima) {
-            card1 = mazzo.cercaCarta(9);
-            btnCard10.setIcon(icone[card1.getCode()]);
-            prima = false;
-        }
-        else if (unLock && card1.getPos() != 9) {
-            unLock = false;
-            card2 = mazzo.cercaCarta(9);
-            btnCard10.setIcon(icone[card2.getCode()]);
-            if(card1.equals(card2)) {
-                if(player1)
-                    player1Score++;
-                else
-                    player2Score++;
-                
-                nascondi();
-            }
-            else {
-                gira();
-            }
-        }
-        
-        update();
+        pressButton(btnCard10, 9);
     }//GEN-LAST:event_btnCard10ActionPerformed
 
     private void btnCard12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCard12ActionPerformed
-        if(prima) {
-            card1 = mazzo.cercaCarta(11);
-            btnCard12.setIcon(icone[card1.getCode()]);
-            prima = false;
-        }
-        else if (unLock && card1.getPos() != 11) {
-            unLock = false;
-            card2 = mazzo.cercaCarta(11);
-            btnCard12.setIcon(icone[card2.getCode()]);
-            if(card1.equals(card2)) {
-                if(player1)
-                    player1Score++;
-                else
-                    player2Score++;
-                
-                nascondi();
-            }
-            else {
-                gira();
-            }
-        }
-        
-        update();
+        pressButton(btnCard12, 11);
     }//GEN-LAST:event_btnCard12ActionPerformed
 
     private void btnCard13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCard13ActionPerformed
-        if(prima) {
-            card1 = mazzo.cercaCarta(12);
-            btnCard13.setIcon(icone[card1.getCode()]);
-            prima = false;
-        }
-        else if (unLock && card1.getPos() != 12) {
-            unLock = false;
-            card2 = mazzo.cercaCarta(12);
-            btnCard13.setIcon(icone[card2.getCode()]);
-            if(card1.equals(card2)) {
-                if(player1)
-                    player1Score++;
-                else
-                    player2Score++;
-                
-                nascondi();
-            }
-            else {
-                gira();
-            }
-        }
-        
-        update();
+        pressButton(btnCard13, 12);
     }//GEN-LAST:event_btnCard13ActionPerformed
 
     private void btnCard14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCard14ActionPerformed
-        if(prima) {
-            card1 = mazzo.cercaCarta(13);
-            btnCard14.setIcon(icone[card1.getCode()]);
-            prima = false;
-        }
-        else if (unLock && card1.getPos() != 13) {
-            unLock = false;
-            card2 = mazzo.cercaCarta(13);
-            btnCard14.setIcon(icone[card2.getCode()]);
-            if(card1.equals(card2)) {
-                if(player1)
-                    player1Score++;
-                else
-                    player2Score++;
-                
-                nascondi();
-            }
-            else {
-                gira();
-            }
-        }
-        
-        update();
+        pressButton(btnCard14, 13);
     }//GEN-LAST:event_btnCard14ActionPerformed
 
     private void btnCard15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCard15ActionPerformed
-        if(prima) {
-            card1 = mazzo.cercaCarta(14);
-            btnCard15.setIcon(icone[card1.getCode()]);
-            prima = false;
-        }
-        else if (unLock && card1.getPos() != 14) {
-            unLock = false;
-            card2 = mazzo.cercaCarta(14);
-            btnCard15.setIcon(icone[card2.getCode()]);
-            if(card1.equals(card2)) {
-                if(player1)
-                    player1Score++;
-                else
-                    player2Score++;
-                
-                nascondi();
-            }
-            else {
-                gira();
-            }
-        }
-        
-        update();
+        pressButton(btnCard15, 14);
     }//GEN-LAST:event_btnCard15ActionPerformed
 
     private void btnCard16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCard16ActionPerformed
+        pressButton(btnCard16, 15);
+    }//GEN-LAST:event_btnCard16ActionPerformed
+
+    public void pressButton(JButton button, int pos) {
         if(prima) {
-            card1 = mazzo.cercaCarta(15);
-            btnCard16.setIcon(icone[card1.getCode()]);
+            card1 = mazzo.cercaCarta(pos);
+            button.setIcon(icone[card1.getCode()]);
             prima = false;
         }
-        else if (unLock && card1.getPos() != 15) {
+        else if (unLock && card1.getPos() != pos) {
             unLock = false;
-            card2 = mazzo.cercaCarta(15);
-            btnCard16.setIcon(icone[card2.getCode()]);
+            card2 = mazzo.cercaCarta(pos);
+            button.setIcon(icone[card2.getCode()]);
             if(card1.equals(card2)) {
                 if(player1)
                     player1Score++;
@@ -765,8 +439,8 @@ public class Game extends javax.swing.JFrame {
         }
         
         update();
-    }//GEN-LAST:event_btnCard16ActionPerformed
-
+    }
+    
     public void nascondi () {
         pulsanti[card1.getPos()].setEnabled(false);
         pulsanti[card2.getPos()].setEnabled(false);
