@@ -22,21 +22,21 @@ import javax.swing.JOptionPane;
  */
 public class Game extends javax.swing.JFrame {
 
-    private final int N_CARTE = 16;
-    private final Mazzo mazzo;
+    private final int N_CARDS = 16;
+    private final Deck deck;
     
-    private final ImageIcon[] icone;
+    private final ImageIcon[] icons;
     
     private Image logo;
     
-    private final JButton[] pulsanti;
+    private final JButton[] buttons;
     
-    private Boolean prima;
+    private Boolean first;
     private Boolean player1;
     private Boolean unLock;
     
-    private Carta card1;
-    private Carta card2;
+    private Card card1;
+    private Card card2;
     
     private String player1Name;
     private String player2Name;
@@ -63,15 +63,15 @@ public class Game extends javax.swing.JFrame {
         this.round = round;
         
         this.player1 = true;
-        this.prima = true;
+        this.first = true;
         this.unLock = true;
         
         this.player1Score = 0;
         this.player2Score = 0;
         
-        mazzo = new Mazzo (N_CARTE);
+        deck = new Deck (N_CARDS);
         
-        icone = new ImageIcon[(N_CARTE / 2) + 1];
+        icons = new ImageIcon[(N_CARDS / 2) + 1];
         genIcon();
         
         try {
@@ -81,7 +81,7 @@ public class Game extends javax.swing.JFrame {
         }
         setIconImage(logo);
         
-        pulsanti = new JButton[] {btnCard1, btnCard2, btnCard3, btnCard4, btnCard5, btnCard6, btnCard7, btnCard8, btnCard9, btnCard10, btnCard11, btnCard12, btnCard13, btnCard14, btnCard15, btnCard16};
+        buttons = new JButton[] {btnCard1, btnCard2, btnCard3, btnCard4, btnCard5, btnCard6, btnCard7, btnCard8, btnCard9, btnCard10, btnCard11, btnCard12, btnCard13, btnCard14, btnCard15, btnCard16};
     
         update();
     }
@@ -89,8 +89,8 @@ public class Game extends javax.swing.JFrame {
     private void genIcon() {
         int i;
         
-        for(i = 0; i < (N_CARTE / 2) + 1; i++)
-            icone[i] = new ImageIcon(getClass().getResource("/Memory/img/" + i + ".jpg"));
+        for(i = 0; i < (N_CARDS / 2) + 1; i++)
+            icons[i] = new ImageIcon(getClass().getResource("/Memory/img/" + i + ".jpg"));
     }
     
     /**
@@ -307,7 +307,7 @@ public class Game extends javax.swing.JFrame {
         lblTurno.setText("TURNO GIOCATORE: 1");
         panel.add(lblTurno, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 74, -1, -1));
 
-        btnReset.setText("Reset");
+        btnReset.setText("Ricomincia");
         btnReset.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnResetActionPerformed(evt);
@@ -348,6 +348,9 @@ public class Game extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
+        player1Round = 0;
+        player2Round = 0;
+        
         reset();
     }//GEN-LAST:event_btnResetActionPerformed
 
@@ -416,52 +419,52 @@ public class Game extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCard16ActionPerformed
 
     public void pressButton(JButton button, int pos) {
-        if(prima) {
-            card1 = mazzo.cercaCarta(pos);
-            button.setIcon(icone[card1.getCode()]);
-            prima = false;
+        if(first) {
+            card1 = deck.findCard(pos);
+            button.setIcon(icons[card1.getCode()]);
+            first = false;
         }
         else if (unLock && card1.getPos() != pos) {
             unLock = false;
-            card2 = mazzo.cercaCarta(pos);
-            button.setIcon(icone[card2.getCode()]);
+            card2 = deck.findCard(pos);
+            button.setIcon(icons[card2.getCode()]);
             if(card1.equals(card2)) {
                 if(player1)
                     player1Score++;
                 else
                     player2Score++;
                 
-                nascondi();
+                hideCards();
             }
             else {
-                gira();
+                turn();
             }
         }
         
         update();
     }
     
-    public void nascondi () {
-        pulsanti[card1.getPos()].setEnabled(false);
-        pulsanti[card2.getPos()].setEnabled(false);
+    public void hideCards () {
+        buttons[card1.getPos()].setEnabled(false);
+        buttons[card2.getPos()].setEnabled(false);
         
         card1 = null;
         card2 = null;
 
         unLock = true;
-        prima = true;
+        first = true;
         
         if(player1Score + player2Score != 8)
             update();
     }
     
-    public void gira () {
+    public void turn () {
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run(){
-                pulsanti[card1.getPos()].setIcon(icone[8]);
-                pulsanti[card2.getPos()].setIcon(icone[8]);
+                buttons[card1.getPos()].setIcon(icons[8]);
+                buttons[card2.getPos()].setIcon(icons[8]);
                 
                 card1 = null;
                 card2 = null;
@@ -472,7 +475,7 @@ public class Game extends javax.swing.JFrame {
                 timer.cancel();
                 
                 unLock = true;
-                prima = true;
+                first = true;
             }
         }, 3000);
     }
@@ -493,9 +496,6 @@ public class Game extends javax.swing.JFrame {
                 if(player2Round == (round / 2) + 1)
                     JOptionPane.showMessageDialog(rootPane, player2Name + " ha vinto!", "WINNER WINNER CHICKEN DINNER", 1);
             }
-            
-            if(player1Round == (round / 2) + 1 || player2Round == (round / 2) + 1)
-                lblReset.setText("Il campo è stato rigenerato!");
 
             reset();
         }
@@ -516,29 +516,28 @@ public class Game extends javax.swing.JFrame {
     public void reset() {
         System.out.println("");
 
-        mazzo.reset();
-        mazzo.genMazzo();
+        deck.mix();
 
-        this.player1Score = 0;
-        this.player2Score = 0;
+        player1Score = 0;
+        player2Score = 0;
 
-        this.prima = true;
-        this.player1 = true;
-        this.unLock = true;
+        first = true;
+        player1 = true;
+        unLock = true;
 
-        this.card1 = null;
-        this.card2 = null;
+        card1 = null;
+        card2 = null;
 
         if(player1Round == (round / 2) + 1 || player2Round == (round / 2) + 1) {
             player1Round = 0;
             player2Round = 0;
         }
-        else
-            lblReset.setText("");
         
-        for(int i = 0; i < N_CARTE; i++) {
-            pulsanti[i].setEnabled(true);
-            pulsanti[i].setIcon(icone[8]);
+        lblReset.setText("Il campo è stato rigenerato!");
+        
+        for(int i = 0; i < N_CARDS; i++) {
+            buttons[i].setEnabled(true);
+            buttons[i].setIcon(icons[8]);
         }
 
         update();

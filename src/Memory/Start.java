@@ -201,8 +201,8 @@ public class Start extends javax.swing.JFrame {
 
             this.setVisible(false);
 
-            Game gioco = new Game(player1, player2, round);
-            gioco.setVisible(true);
+            Game game = new Game(player1, player2, round);
+            game.setVisible(true);
         }
     }//GEN-LAST:event_btnPlayActionPerformed
 
