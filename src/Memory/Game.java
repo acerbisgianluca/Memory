@@ -6,7 +6,10 @@
 package Memory;
 
 import java.awt.Image;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
@@ -21,7 +24,9 @@ import javax.swing.JOptionPane;
  * @author Gianluca
  */
 public class Game extends javax.swing.JFrame {
-
+    
+    Start start;
+    
     private final int N_CARDS = 16;
     private final Deck deck;
     
@@ -31,43 +36,19 @@ public class Game extends javax.swing.JFrame {
     
     private final JButton[] buttons;
     
-    private Boolean first;
-    private Boolean player1;
-    private Boolean unLock;
-    
-    private Card card1;
-    private Card card2;
-    
-    private String player1Name;
-    private String player2Name;
-    
-    private int player1Score;
-    private int player2Score;
-    
-    private int round;
-    private int player1Round;
-    private int player2Round;
+    private GameManager gm;
     
     /**
      * Creates new form Game
-     * @param player1
-     * @param player2
-     * @param round
+     * @param gm
+     * @param start
      */
-    public Game(String player1, String player2, int round) {
+    public Game(GameManager gm, Start start) {
         initComponents();
         
-        this.player1Name = player1;
-        this.player2Name = player2;
+        this.start = start;
         
-        this.round = round;
-        
-        this.player1 = true;
-        this.first = true;
-        this.unLock = true;
-        
-        this.player1Score = 0;
-        this.player2Score = 0;
+        this.gm = gm;
         
         deck = new Deck (N_CARDS);
         
@@ -119,19 +100,26 @@ public class Game extends javax.swing.JFrame {
         btnCard14 = new javax.swing.JButton();
         btnCard15 = new javax.swing.JButton();
         btnCard16 = new javax.swing.JButton();
-        lblPlayer2 = new javax.swing.JLabel();
         lblPlayer1 = new javax.swing.JLabel();
+        lblPlayer2 = new javax.swing.JLabel();
         lblTurno = new javax.swing.JLabel();
-        btnReset = new javax.swing.JButton();
         lblPlayer1Round = new javax.swing.JLabel();
         lblPlayer2Round = new javax.swing.JLabel();
         lblReset = new javax.swing.JLabel();
+        progressBar = new javax.swing.JProgressBar();
+        menuBar = new javax.swing.JMenuBar();
+        menuElement = new javax.swing.JMenu();
+        menuReset = new javax.swing.JMenuItem();
+        menuRestart = new javax.swing.JMenuItem();
+        menuSave = new javax.swing.JMenuItem();
+        menuExit = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Memory: OverWatch Edition");
         setIconImages(null);
         setResizable(false);
 
+        panel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         panel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnCard1.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
@@ -294,31 +282,23 @@ public class Game extends javax.swing.JFrame {
         });
         panel.add(btnCard16, new org.netbeans.lib.awtextra.AbsoluteConstraints(364, 603, -1, 150));
 
-        lblPlayer2.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        lblPlayer2.setText("PUNTEGGIO GIOCATORE 2: 0");
-        panel.add(lblPlayer2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, -1, -1));
-
         lblPlayer1.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        lblPlayer1.setText("PUNTEGGIO GIOCATORE 1: 0");
+        lblPlayer1.setText("Punteggio giocatore 1:");
         panel.add(lblPlayer1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 13, -1, -1));
+
+        lblPlayer2.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        lblPlayer2.setText("Punteggio giocatore 2:");
+        panel.add(lblPlayer2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, -1, -1));
 
         lblTurno.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         lblTurno.setForeground(new java.awt.Color(255, 0, 0));
-        lblTurno.setText("TURNO GIOCATORE: 1");
+        lblTurno.setText("Turno giocatore:");
         panel.add(lblTurno, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 74, -1, -1));
 
-        btnReset.setText("Ricomincia");
-        btnReset.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnResetActionPerformed(evt);
-            }
-        });
-        panel.add(btnReset, new org.netbeans.lib.awtextra.AbsoluteConstraints(403, 11, -1, -1));
-
-        lblPlayer1Round.setText("Round vinti: 0");
+        lblPlayer1Round.setText("Round vinti da 1: 0");
         panel.add(lblPlayer1Round, new org.netbeans.lib.awtextra.AbsoluteConstraints(279, 15, -1, -1));
 
-        lblPlayer2Round.setText("Round vinti: 0");
+        lblPlayer2Round.setText("Round vinti da 2: 0");
         panel.add(lblPlayer2Round, new org.netbeans.lib.awtextra.AbsoluteConstraints(279, 42, -1, -1));
 
         lblReset.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
@@ -327,32 +307,68 @@ public class Game extends javax.swing.JFrame {
         lblReset.setName(""); // NOI18N
         panel.add(lblReset, new org.netbeans.lib.awtextra.AbsoluteConstraints(279, 74, -1, -1));
 
+        progressBar.setMaximum(8);
+        progressBar.setString("0/8");
+        progressBar.setStringPainted(true);
+        panel.add(progressBar, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 70, 180, -1));
+
+        menuElement.setText("Opzioni");
+
+        menuReset.setText("Ricomincia");
+        menuReset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuResetActionPerformed(evt);
+            }
+        });
+        menuElement.add(menuReset);
+
+        menuRestart.setText("Scegli giocatori");
+        menuRestart.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuRestartActionPerformed(evt);
+            }
+        });
+        menuElement.add(menuRestart);
+
+        menuSave.setText("Salva la partita");
+        menuSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuSaveActionPerformed(evt);
+            }
+        });
+        menuElement.add(menuSave);
+
+        menuExit.setText("Esci");
+        menuExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuExitActionPerformed(evt);
+            }
+        });
+        menuElement.add(menuExit);
+
+        menuBar.add(menuElement);
+
+        setJMenuBar(menuBar);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, 475, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, 765, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
-        player1Round = 0;
-        player2Round = 0;
-        
-        reset();
-    }//GEN-LAST:event_btnResetActionPerformed
 
     private void btnCard1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCard1ActionPerformed
         pressButton(btnCard1, 0);
@@ -418,21 +434,44 @@ public class Game extends javax.swing.JFrame {
         pressButton(btnCard16, 15);
     }//GEN-LAST:event_btnCard16ActionPerformed
 
+    private void menuResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuResetActionPerformed
+        gm.setPlayer1Round(0);
+        gm.setPlayer2Round(0);
+        
+        reset();
+    }//GEN-LAST:event_menuResetActionPerformed
+
+    private void menuRestartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuRestartActionPerformed
+        start.setVisible(true);
+        start.reset();
+        
+        this.setVisible(false);
+        dispose();
+    }//GEN-LAST:event_menuRestartActionPerformed
+
+    private void menuExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuExitActionPerformed
+        exit();
+    }//GEN-LAST:event_menuExitActionPerformed
+
+    private void menuSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSaveActionPerformed
+        saveMatch();
+    }//GEN-LAST:event_menuSaveActionPerformed
+
     public void pressButton(JButton button, int pos) {
-        if(first) {
-            card1 = deck.findCard(pos);
-            button.setIcon(icons[card1.getCode()]);
-            first = false;
+        if(gm.getFirst()) {
+            gm.setCard1(deck.findCard(pos));
+            button.setIcon(icons[gm.getCard1().getCode()]);
+            gm.setFirst(false);
         }
-        else if (unLock && card1.getPos() != pos) {
-            unLock = false;
-            card2 = deck.findCard(pos);
-            button.setIcon(icons[card2.getCode()]);
-            if(card1.equals(card2)) {
-                if(player1)
-                    player1Score++;
+        else if (gm.getUnLock() && gm.getCard1().getPos() != pos) {
+            gm.setUnLock(false);
+            gm.setCard2(deck.findCard(pos));
+            button.setIcon(icons[gm.getCard2().getCode()]);
+            if(gm.getCard1().equals(gm.getCard2())) {
+                if(gm.getPlayer1())
+                    gm.setPlayer1Score(gm.getPlayer1Score() + 1);
                 else
-                    player2Score++;
+                    gm.setPlayer2Score(gm.getPlayer2Score() + 1);
                 
                 hideCards();
             }
@@ -445,16 +484,16 @@ public class Game extends javax.swing.JFrame {
     }
     
     public void hideCards () {
-        buttons[card1.getPos()].setEnabled(false);
-        buttons[card2.getPos()].setEnabled(false);
+        buttons[gm.getCard1().getPos()].setEnabled(false);
+        buttons[gm.getCard2().getPos()].setEnabled(false);
         
-        card1 = null;
-        card2 = null;
+        gm.setCard1(null);
+        gm.setCard2(null);
 
-        unLock = true;
-        first = true;
+        gm.setUnLock(true);
+        gm.setFirst(true);
         
-        if(player1Score + player2Score != 8)
+        if(gm.getPlayer1Score() + gm.getPlayer2Score() != 8)
             update();
     }
     
@@ -463,54 +502,57 @@ public class Game extends javax.swing.JFrame {
         timer.schedule(new TimerTask() {
             @Override
             public void run(){
-                buttons[card1.getPos()].setIcon(icons[8]);
-                buttons[card2.getPos()].setIcon(icons[8]);
+                buttons[gm.getCard1().getPos()].setIcon(icons[8]);
+                buttons[gm.getCard2().getPos()].setIcon(icons[8]);
                 
-                card1 = null;
-                card2 = null;
-                player1 = !player1;
+                gm.setCard1(null);
+                gm.setCard2(null);
+                gm.setPlayer1(!gm.getPlayer1());
                 
                 update();
                 
                 timer.cancel();
                 
-                unLock = true;
-                first = true;
+                gm.setUnLock(true);
+                gm.setFirst(true);
             }
         }, 3000);
     }
     
     public void update () {
-        if(player1Score + player2Score == 8){
-            if(player1Score > player2Score){
-                lblPlayer1.setText("Punteggio di " + player1Name + ": " + player1Score);
-                player1Round++;
-                lblPlayer1Round.setText("Round vinti: " + player1Round);
-                if(player1Round == (round / 2) + 1)
-                    JOptionPane.showMessageDialog(rootPane, player1Name + " ha vinto!", "WINNER WINNER CHICKEN DINNER", 1);
+        progressBar.setValue(gm.getPlayer1Score() + gm.getPlayer2Score());
+        progressBar.setString(progressBar.getValue() + "/8");
+        
+        if(gm.getPlayer1Score() + gm.getPlayer2Score() == 8){
+            if(gm.getPlayer1Score() > gm.getPlayer2Score()){
+                lblPlayer1.setText("Punteggio di " + gm.getPlayer1Name() + ": " + gm.getPlayer1Score());
+                gm.setPlayer1Round(gm.getPlayer1Round() + 1);
+                lblPlayer1Round.setText("Round vinti da " + gm.getPlayer1Name() + ": " + gm.getPlayer1Round() + "/" + gm.getRound2win());
+                if(gm.getPlayer1Round() == gm.getRound2win())
+                    JOptionPane.showMessageDialog(rootPane, gm.getPlayer1Name() + " ha vinto!", "WINNER WINNER CHICKEN DINNER", 1);
             }
             else {
-                lblPlayer2.setText("Punteggio di " + player2Name + ": " + player2Score);
-                player2Round++;
-                lblPlayer2Round.setText("Round vinti: " + player2Round);
-                if(player2Round == (round / 2) + 1)
-                    JOptionPane.showMessageDialog(rootPane, player2Name + " ha vinto!", "WINNER WINNER CHICKEN DINNER", 1);
+                lblPlayer2.setText("Punteggio di " + gm.getPlayer2Name() + ": " + gm.getPlayer2Score());
+                gm.setPlayer2Round(gm.getPlayer2Round() + 1);
+                lblPlayer2Round.setText("Round vinti da " + gm.getPlayer2Name() +": " + gm.getPlayer2Round() + "/" + gm.getRound2win());
+                if(gm.getPlayer2Round() == gm.getRound2win())
+                    JOptionPane.showMessageDialog(rootPane, gm.getPlayer2Name() + " ha vinto!", "WINNER WINNER CHICKEN DINNER", 1);
             }
 
             reset();
         }
         else {
-            lblPlayer1.setText("Punteggio di " + player1Name + ": " + player1Score);
-            lblPlayer2.setText("Punteggio di " + player2Name + ": " + player2Score);
+            lblPlayer1.setText("Punteggio di " + gm.getPlayer1Name() + ": " + gm.getPlayer1Score());
+            lblPlayer2.setText("Punteggio di " + gm.getPlayer2Name() + ": " + gm.getPlayer2Score());
             
-            lblPlayer1Round.setText("Round vinti: " + player1Round);
-            lblPlayer2Round.setText("Round vinti: " + player2Round);
+            lblPlayer1Round.setText("Round vinti da " + gm.getPlayer1Name() +": " + gm.getPlayer1Round() + "/" + gm.getRound2win());
+            lblPlayer2Round.setText("Round vinti da " + gm.getPlayer2Name() +": " + gm.getPlayer2Round() + "/" + gm.getRound2win());
             
-            if(player1)
-                lblTurno.setText("Turno di " + player1Name);
+            if(gm.getPlayer1())
+                lblTurno.setText("Turno di " + gm.getPlayer1Name());
             else
-                lblTurno.setText("Turno di " + player2Name);
-        } 
+                lblTurno.setText("Turno di " + gm.getPlayer2Name());
+        }
     }
     
     public void reset() {
@@ -518,22 +560,28 @@ public class Game extends javax.swing.JFrame {
 
         deck.mix();
 
-        player1Score = 0;
-        player2Score = 0;
+        gm.setPlayer1Score(0);
+        gm.setPlayer2Score(0);
 
-        first = true;
-        player1 = true;
-        unLock = true;
+        gm.setFirst(true);
+        gm.setPlayer1(true);
+        gm.setUnLock(true);
 
-        card1 = null;
-        card2 = null;
+        gm.setCard1(null);
+        gm.setCard2(null);
 
-        if(player1Round == (round / 2) + 1 || player2Round == (round / 2) + 1) {
-            player1Round = 0;
-            player2Round = 0;
+        if(gm.getPlayer1Round() == gm.getRound2win() || gm.getPlayer2Round() == gm.getRound2win()) {
+            if(JOptionPane.showConfirmDialog(rootPane, "Vuoi ricominciare?", "PARTITA CONCLUSA", 0, 2) == 0){
+                gm.setPlayer1Round(0);
+                gm.setPlayer2Round(0);
+            }
+            else
+                System.exit(0);  
         }
         
-        lblReset.setText("Il campo è stato rigenerato!");
+        JOptionPane.showMessageDialog(rootPane, "Il campo è stato rigenerato!", "AVVISO", 1);
+        
+        progressBar.setValue(0);
         
         for(int i = 0; i < N_CARDS; i++) {
             buttons[i].setEnabled(true);
@@ -543,6 +591,36 @@ public class Game extends javax.swing.JFrame {
         update();
     }
 
+    public void saveMatch() {
+        ObjectOutputStream stream = null;
+        
+        try {
+            stream = new ObjectOutputStream(new FileOutputStream("savedGame.txt"));
+            stream.writeObject(gm);
+            stream.close();
+            
+            JOptionPane.showMessageDialog(rootPane, "La partita è stata salvata!", "PARTITA SALVATA", 1);
+        } catch (IOException ex) {
+            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public int exit() {
+        switch(JOptionPane.showConfirmDialog(rootPane, "Vuoi salvare la partita prima di uscire?", "ESCI", 1, 2)){
+            case 0:
+                saveMatch();
+                System.exit(0);
+                break;
+            case 1:
+                File file = new File("savedGame.txt");
+                file.delete();
+                System.exit(0);
+                break;
+        }
+        
+        return 0;
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCard1;
     private javax.swing.JButton btnCard10;
@@ -560,13 +638,19 @@ public class Game extends javax.swing.JFrame {
     private javax.swing.JButton btnCard7;
     private javax.swing.JButton btnCard8;
     private javax.swing.JButton btnCard9;
-    private javax.swing.JButton btnReset;
     private javax.swing.JLabel lblPlayer1;
     private javax.swing.JLabel lblPlayer1Round;
     private javax.swing.JLabel lblPlayer2;
     private javax.swing.JLabel lblPlayer2Round;
     private javax.swing.JLabel lblReset;
     private javax.swing.JLabel lblTurno;
+    private javax.swing.JMenuBar menuBar;
+    private javax.swing.JMenu menuElement;
+    private javax.swing.JMenuItem menuExit;
+    private javax.swing.JMenuItem menuReset;
+    private javax.swing.JMenuItem menuRestart;
+    private javax.swing.JMenuItem menuSave;
     private javax.swing.JPanel panel;
+    private javax.swing.JProgressBar progressBar;
     // End of variables declaration//GEN-END:variables
 }
