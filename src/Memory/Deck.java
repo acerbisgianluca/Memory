@@ -5,13 +5,14 @@
  */
 package Memory;
 
+import java.io.Serializable;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
  *
  * @author Gianluca
  */
-public final class Deck {
+public final class Deck implements Serializable{
     
     private final Card[] deck;
     private final int N;

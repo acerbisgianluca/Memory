@@ -13,6 +13,9 @@ import java.io.Serializable;
  */
 public class GameManager implements Serializable{
     
+    private final int N_CARDS = 16;
+    private final Deck deck;
+    
     private Boolean first;
     private Boolean player1;
     private Boolean unLock;
@@ -43,6 +46,16 @@ public class GameManager implements Serializable{
         this.round2win = (round / 2) + 1;
         this.player1Round = 0;
         this.player2Round = 0;
+        
+        deck = new Deck (N_CARDS);
+    }
+
+    public int getN_CARDS() {
+        return N_CARDS;
+    }
+
+    public Deck getDeck() {
+        return deck;
     }
 
     public Boolean getFirst() {

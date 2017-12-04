@@ -225,7 +225,7 @@ public class Start extends javax.swing.JFrame {
             
             gm = new GameManager(player1, player2, round);
             
-            Game game = new Game(gm, this);
+            Game game = new Game(gm, this, false);
             game.setVisible(true);
         }
     }//GEN-LAST:event_btnPlayActionPerformed
@@ -239,7 +239,7 @@ public class Start extends javax.swing.JFrame {
             
             this.setVisible(false);
         
-            Game game = new Game(gm, this);
+            Game game = new Game(gm, this, true);
             game.setVisible(true);
         } catch (IOException | ClassNotFoundException ex) {
             lblError.setText("Nessun salvataggio trovato!");

@@ -27,9 +27,6 @@ public class Game extends javax.swing.JFrame {
     
     Start start;
     
-    private final int N_CARDS = 16;
-    private final Deck deck;
-    
     private final ImageIcon[] icons;
     
     private Image logo;
@@ -42,17 +39,16 @@ public class Game extends javax.swing.JFrame {
      * Creates new form Game
      * @param gm
      * @param start
+     * @param backup
      */
-    public Game(GameManager gm, Start start) {
+    public Game(GameManager gm, Start start, boolean backup) {
         initComponents();
         
         this.start = start;
         
         this.gm = gm;
         
-        deck = new Deck (N_CARDS);
-        
-        icons = new ImageIcon[(N_CARDS / 2) + 1];
+        icons = new ImageIcon[(gm.getN_CARDS() / 2) + 1];
         genIcon();
         
         try {
@@ -63,14 +59,21 @@ public class Game extends javax.swing.JFrame {
         setIconImage(logo);
         
         buttons = new JButton[] {btnCard1, btnCard2, btnCard3, btnCard4, btnCard5, btnCard6, btnCard7, btnCard8, btnCard9, btnCard10, btnCard11, btnCard12, btnCard13, btnCard14, btnCard15, btnCard16};
-    
+        
+        if(backup)
+            for(int i = 0; i < gm.getN_CARDS(); i++)
+                if(!gm.getDeck().findCard(i).isEnabled()){
+                    buttons[i].setEnabled(false);
+                    buttons[i].setIcon(icons[gm.getDeck().findCard(i).getCode()]);
+                }
+        
         update();
     }
     
     private void genIcon() {
         int i;
         
-        for(i = 0; i < (N_CARDS / 2) + 1; i++)
+        for(i = 0; i < (gm.getN_CARDS() / 2) + 1; i++)
             icons[i] = new ImageIcon(getClass().getResource("/Memory/img/" + i + ".jpg"));
     }
     
@@ -459,13 +462,13 @@ public class Game extends javax.swing.JFrame {
 
     public void pressButton(JButton button, int pos) {
         if(gm.getFirst()) {
-            gm.setCard1(deck.findCard(pos));
+            gm.setCard1(gm.getDeck().findCard(pos));
             button.setIcon(icons[gm.getCard1().getCode()]);
             gm.setFirst(false);
         }
         else if (gm.getUnLock() && gm.getCard1().getPos() != pos) {
             gm.setUnLock(false);
-            gm.setCard2(deck.findCard(pos));
+            gm.setCard2(gm.getDeck().findCard(pos));
             button.setIcon(icons[gm.getCard2().getCode()]);
             if(gm.getCard1().equals(gm.getCard2())) {
                 if(gm.getPlayer1())
@@ -486,6 +489,9 @@ public class Game extends javax.swing.JFrame {
     public void hideCards () {
         buttons[gm.getCard1().getPos()].setEnabled(false);
         buttons[gm.getCard2().getPos()].setEnabled(false);
+        
+        gm.getDeck().findCard(gm.getCard1().getPos()).setEnabled(false);
+        gm.getDeck().findCard(gm.getCard2().getPos()).setEnabled(false);
         
         gm.setCard1(null);
         gm.setCard2(null);
@@ -558,7 +564,7 @@ public class Game extends javax.swing.JFrame {
     public void reset() {
         System.out.println("");
 
-        deck.mix();
+        gm.getDeck().mix();
 
         gm.setPlayer1Score(0);
         gm.setPlayer2Score(0);
@@ -583,7 +589,7 @@ public class Game extends javax.swing.JFrame {
         
         progressBar.setValue(0);
         
-        for(int i = 0; i < N_CARDS; i++) {
+        for(int i = 0; i < gm.getN_CARDS(); i++) {
             buttons[i].setEnabled(true);
             buttons[i].setIcon(icons[8]);
         }
@@ -592,6 +598,8 @@ public class Game extends javax.swing.JFrame {
     }
 
     public void saveMatch() {
+        gm.setFirst(true);
+        
         ObjectOutputStream stream = null;
         
         try {
