@@ -118,7 +118,7 @@ public class Game extends javax.swing.JFrame {
         menuExit = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Memory: OverWatch Edition");
+        setTitle("Memory: Overwatch Edition");
         setIconImages(null);
         setResizable(false);
 
@@ -599,6 +599,7 @@ public class Game extends javax.swing.JFrame {
 
     public void saveMatch() {
         gm.setFirst(true);
+        gm.setUnLock(true);
         
         ObjectOutputStream stream = null;
         

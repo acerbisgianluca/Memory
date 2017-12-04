@@ -63,7 +63,7 @@ public class Start extends javax.swing.JFrame {
         lblError = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Memory: OverWatch Edition");
+        setTitle("Memory: Overwatch Edition");
         setResizable(false);
 
         lblTitle.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
