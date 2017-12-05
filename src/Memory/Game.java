@@ -35,6 +35,8 @@ public class Game extends javax.swing.JFrame {
     
     private GameManager gm;
     
+    Timer timer;
+    
     /**
      * Creates new form Game
      * @param gm
@@ -504,7 +506,7 @@ public class Game extends javax.swing.JFrame {
     }
     
     public void turn () {
-        Timer timer = new Timer();
+        timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run(){
@@ -521,6 +523,8 @@ public class Game extends javax.swing.JFrame {
                 
                 gm.setUnLock(true);
                 gm.setFirst(true);
+                
+                timer = null;
             }
         }, 3000);
     }
@@ -598,14 +602,19 @@ public class Game extends javax.swing.JFrame {
     }
 
     public void saveMatch() {
-        gm.setFirst(true);
-        gm.setUnLock(true);
+        GameManager savedGM = new GameManager(gm);
+        
+        if(timer != null)
+            savedGM.setPlayer1(!savedGM.getPlayer1());
+
+        savedGM.setFirst(true);
+        savedGM.setUnLock(true);
         
         ObjectOutputStream stream = null;
         
         try {
             stream = new ObjectOutputStream(new FileOutputStream("savedGame.txt"));
-            stream.writeObject(gm);
+            stream.writeObject(savedGM);
             stream.close();
             
             JOptionPane.showMessageDialog(rootPane, "La partita è stata salvata!", "PARTITA SALVATA", 1);

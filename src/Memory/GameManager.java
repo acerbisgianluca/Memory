@@ -50,6 +50,25 @@ public class GameManager implements Serializable{
         deck = new Deck (N_CARDS);
     }
 
+    public GameManager(GameManager gm) {
+        this.first = gm.getFirst();
+        this.player1 = gm.getPlayer1();
+        this.unLock = gm.getUnLock();
+        this.card1 = gm.getCard1();
+        this.card2 = gm.getCard2();
+        this.player1Name = gm.getPlayer1Name();
+        this.player2Name = gm.getPlayer2Name();
+        this.player1Score = gm.getPlayer1Score();
+        this.player2Score = gm.getPlayer2Score();
+        this.round2win = gm.getRound2win();
+        this.player1Round = gm.getPlayer1Round();
+        this.player2Round = gm.getPlayer2Score();
+        
+        deck = gm.getDeck();
+    }
+    
+    
+
     public int getN_CARDS() {
         return N_CARDS;
     }
