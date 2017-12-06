@@ -28,7 +28,7 @@ public class Game extends javax.swing.JFrame {
     Start start;
     
     private final ImageIcon[] icons;
-    
+    private final ImageIcon winner;
     private Image logo;
     
     private final JButton[] buttons;
@@ -52,6 +52,8 @@ public class Game extends javax.swing.JFrame {
         
         icons = new ImageIcon[(gm.getN_CARDS() / 2) + 1];
         genIcon();
+        
+        winner = new ImageIcon(getClass().getResource("/Memory/img/winner.gif"));
         
         try {
             logo = ImageIO.read(getClass().getResource("/Memory/img/logo.png"));
@@ -539,14 +541,14 @@ public class Game extends javax.swing.JFrame {
                 gm.setPlayer1Round(gm.getPlayer1Round() + 1);
                 lblPlayer1Round.setText("Round vinti da " + gm.getPlayer1Name() + ": " + gm.getPlayer1Round() + "/" + gm.getRound2win());
                 if(gm.getPlayer1Round() == gm.getRound2win())
-                    JOptionPane.showMessageDialog(rootPane, gm.getPlayer1Name() + " ha vinto!", "WINNER WINNER CHICKEN DINNER", 1);
+                    JOptionPane.showMessageDialog(rootPane, gm.getPlayer1Name() + " ha vinto!", "WINNER WINNER CHICKEN DINNER", 1, winner);
             }
             else {
                 lblPlayer2.setText("Punteggio di " + gm.getPlayer2Name() + ": " + gm.getPlayer2Score());
                 gm.setPlayer2Round(gm.getPlayer2Round() + 1);
                 lblPlayer2Round.setText("Round vinti da " + gm.getPlayer2Name() +": " + gm.getPlayer2Round() + "/" + gm.getRound2win());
                 if(gm.getPlayer2Round() == gm.getRound2win())
-                    JOptionPane.showMessageDialog(rootPane, gm.getPlayer2Name() + " ha vinto!", "WINNER WINNER CHICKEN DINNER", 1);
+                    JOptionPane.showMessageDialog(rootPane, gm.getPlayer2Name() + " ha vinto!", "WINNER WINNER CHICKEN DINNER", 1, winner);
             }
 
             reset();
