@@ -35,8 +35,6 @@ public class Game extends javax.swing.JFrame {
     
     private GameManager gm;
     
-    Timer timer;
-    
     /**
      * Creates new form Game
      * @param gm
@@ -116,6 +114,7 @@ public class Game extends javax.swing.JFrame {
         progressBar = new javax.swing.JProgressBar();
         menuBar = new javax.swing.JMenuBar();
         menuElement = new javax.swing.JMenu();
+        menuPoints = new javax.swing.JMenuItem();
         menuReset = new javax.swing.JMenuItem();
         menuRestart = new javax.swing.JMenuItem();
         menuSave = new javax.swing.JMenuItem();
@@ -321,6 +320,14 @@ public class Game extends javax.swing.JFrame {
 
         menuElement.setText("Opzioni");
 
+        menuPoints.setText("Mostra punteggi");
+        menuPoints.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuPointsActionPerformed(evt);
+            }
+        });
+        menuElement.add(menuPoints);
+
         menuReset.setText("Ricomincia");
         menuReset.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -375,6 +382,7 @@ public class Game extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCard1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCard1ActionPerformed
@@ -464,6 +472,11 @@ public class Game extends javax.swing.JFrame {
         saveMatch();
     }//GEN-LAST:event_menuSaveActionPerformed
 
+    private void menuPointsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPointsActionPerformed
+        Points p = new Points(gm);
+        p.setVisible(true);
+    }//GEN-LAST:event_menuPointsActionPerformed
+
     public void pressButton(JButton button, int pos) {
         if(gm.getFirst()) {
             gm.setCard1(gm.getDeck().findCard(pos));
@@ -508,7 +521,7 @@ public class Game extends javax.swing.JFrame {
     }
     
     public void turn () {
-        timer = new Timer();
+        Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run(){
@@ -523,15 +536,15 @@ public class Game extends javax.swing.JFrame {
                 
                 timer.cancel();
                 
-                gm.setUnLock(true);
                 gm.setFirst(true);
-                
-                timer = null;
+                gm.setUnLock(true);
             }
         }, 3000);
     }
     
     public void update () {
+        gm.updatePoints();
+        
         progressBar.setValue(gm.getPlayer1Score() + gm.getPlayer2Score());
         progressBar.setString(progressBar.getValue() + "/8");
         
@@ -541,14 +554,18 @@ public class Game extends javax.swing.JFrame {
                 gm.setPlayer1Round(gm.getPlayer1Round() + 1);
                 lblPlayer1Round.setText("Round vinti da " + gm.getPlayer1Name() + ": " + gm.getPlayer1Round() + "/" + gm.getRound2win());
                 if(gm.getPlayer1Round() == gm.getRound2win())
-                    JOptionPane.showMessageDialog(rootPane, gm.getPlayer1Name() + " ha vinto!", "WINNER WINNER CHICKEN DINNER", 1, winner);
+                    JOptionPane.showMessageDialog(rootPane, gm.getPlayer1Name() + " ha vinto!", "WINNER WINNER CHICKEN DINNER", JOptionPane.INFORMATION_MESSAGE, winner);
+                else
+                    JOptionPane.showMessageDialog(rootPane, gm.getPlayer1Name() + " ha vinto il " + (gm.getPlayer1Round() + gm.getPlayer2Round()) + "° round!", "WINNER WINNER CHICKEN DINNER", JOptionPane.INFORMATION_MESSAGE, winner);
             }
             else {
                 lblPlayer2.setText("Punteggio di " + gm.getPlayer2Name() + ": " + gm.getPlayer2Score());
                 gm.setPlayer2Round(gm.getPlayer2Round() + 1);
                 lblPlayer2Round.setText("Round vinti da " + gm.getPlayer2Name() +": " + gm.getPlayer2Round() + "/" + gm.getRound2win());
                 if(gm.getPlayer2Round() == gm.getRound2win())
-                    JOptionPane.showMessageDialog(rootPane, gm.getPlayer2Name() + " ha vinto!", "WINNER WINNER CHICKEN DINNER", 1, winner);
+                    JOptionPane.showMessageDialog(rootPane, gm.getPlayer2Name() + " ha vinto!", "WINNER WINNER CHICKEN DINNER", JOptionPane.INFORMATION_MESSAGE, winner);
+                else
+                    JOptionPane.showMessageDialog(rootPane, gm.getPlayer2Name() + " ha vinto il " + (gm.getPlayer1Round() + gm.getPlayer2Round()) + "° round!", "WINNER WINNER CHICKEN DINNER", JOptionPane.INFORMATION_MESSAGE, winner);
             }
 
             reset();
@@ -591,7 +608,7 @@ public class Game extends javax.swing.JFrame {
                 System.exit(0);  
         }
         
-        JOptionPane.showMessageDialog(rootPane, "Il campo è stato rigenerato!", "AVVISO", 1);
+        JOptionPane.showMessageDialog(rootPane, "Il campo è stato rigenerato!", "AVVISO", JOptionPane.INFORMATION_MESSAGE);
         
         progressBar.setValue(0);
         
@@ -606,7 +623,7 @@ public class Game extends javax.swing.JFrame {
     public void saveMatch() {
         GameManager savedGM = new GameManager(gm);
         
-        if(timer != null)
+        if(!savedGM.getUnLock())
             savedGM.setPlayer1(!savedGM.getPlayer1());
 
         savedGM.setFirst(true);
@@ -619,9 +636,9 @@ public class Game extends javax.swing.JFrame {
             stream.writeObject(savedGM);
             stream.close();
             
-            JOptionPane.showMessageDialog(rootPane, "La partita è stata salvata!", "PARTITA SALVATA", 1);
+            JOptionPane.showMessageDialog(rootPane, "La partita è stata salvata!", "PARTITA SALVATA", JOptionPane.INFORMATION_MESSAGE);
         } catch (IOException ex) {
-            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(rootPane, "C'è stato un errore durante il salvataggio della partita, riprova!", "PARTITA NON SALVATA", JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -667,6 +684,7 @@ public class Game extends javax.swing.JFrame {
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenu menuElement;
     private javax.swing.JMenuItem menuExit;
+    private javax.swing.JMenuItem menuPoints;
     private javax.swing.JMenuItem menuReset;
     private javax.swing.JMenuItem menuRestart;
     private javax.swing.JMenuItem menuSave;

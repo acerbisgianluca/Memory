@@ -32,6 +32,7 @@ public class GameManager implements Serializable{
     private final int round2win;
     private int player1Round;
     private int player2Round;
+    private int[][] points;
 
     public GameManager(String player1Name, String player2Name, int round) {
         this.first = true;
@@ -46,6 +47,7 @@ public class GameManager implements Serializable{
         this.round2win = (round / 2) + 1;
         this.player1Round = 0;
         this.player2Round = 0;
+        this.points = new int[round][2];
         
         deck = new Deck (N_CARDS);
     }
@@ -62,13 +64,23 @@ public class GameManager implements Serializable{
         this.player2Score = gm.getPlayer2Score();
         this.round2win = gm.getRound2win();
         this.player1Round = gm.getPlayer1Round();
-        this.player2Round = gm.getPlayer2Score();
+        this.player2Round = gm.getPlayer2Round();
+        this.points = gm.getPoints();
         
         deck = gm.getDeck();
     }
-    
-    
 
+    public void updatePoints() {
+        int round = player1Round + player2Round;
+        
+        points[round][0] = player1Score;
+        points[round][1] = player2Score;
+    }
+    
+    public int[][] getPoints() {
+        return points;
+    }
+    
     public int getN_CARDS() {
         return N_CARDS;
     }
@@ -159,7 +171,5 @@ public class GameManager implements Serializable{
 
     public void setPlayer2Round(int player2Round) {
         this.player2Round = player2Round;
-    }
-
-    
+    } 
 }

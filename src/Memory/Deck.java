@@ -58,6 +58,10 @@ public final class Deck implements Serializable{
             deck[pos2].setPos(temp);
         }
         
+        //enable card
+        for(i = 0; i < this.N; i++)
+            deck[i].setEnabled(true);
+        
         //DEBUG
         System.out.println("Nuovo campo:");
         for(i = 0; i < this.N; i++){
@@ -81,5 +85,4 @@ public final class Deck implements Serializable{
         
         return null;
     }
-    
 }
