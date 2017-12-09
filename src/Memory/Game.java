@@ -35,6 +35,8 @@ public class Game extends javax.swing.JFrame {
     
     private GameManager gm;
     
+    private Points points;
+    
     /**
      * Creates new form Game
      * @param gm
@@ -62,12 +64,15 @@ public class Game extends javax.swing.JFrame {
         
         buttons = new JButton[] {btnCard1, btnCard2, btnCard3, btnCard4, btnCard5, btnCard6, btnCard7, btnCard8, btnCard9, btnCard10, btnCard11, btnCard12, btnCard13, btnCard14, btnCard15, btnCard16};
         
-        if(backup)
+        if(backup){
             for(int i = 0; i < gm.getN_CARDS(); i++)
                 if(!gm.getDeck().findCard(i).isEnabled()){
                     buttons[i].setEnabled(false);
                     buttons[i].setIcon(icons[gm.getDeck().findCard(i).getCode()]);
                 }
+        }
+        
+        gm.getDeck().debug();
         
         update();
     }
@@ -457,11 +462,13 @@ public class Game extends javax.swing.JFrame {
     }//GEN-LAST:event_menuResetActionPerformed
 
     private void menuRestartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuRestartActionPerformed
+        this.setVisible(false);
+        if(points != null)
+            points.dispose();
+        dispose();
+        
         start.setVisible(true);
         start.reset();
-        
-        this.setVisible(false);
-        dispose();
     }//GEN-LAST:event_menuRestartActionPerformed
 
     private void menuExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuExitActionPerformed
@@ -473,8 +480,15 @@ public class Game extends javax.swing.JFrame {
     }//GEN-LAST:event_menuSaveActionPerformed
 
     private void menuPointsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPointsActionPerformed
-        Points p = new Points(gm);
-        p.setVisible(true);
+        if(points == null) {
+            points = new Points(gm);
+            points.setVisible(true);
+        }
+        else {
+            points.update();
+            points.setVisible(true);
+        }
+            
     }//GEN-LAST:event_menuPointsActionPerformed
 
     public void pressButton(JButton button, int pos) {
@@ -544,6 +558,8 @@ public class Game extends javax.swing.JFrame {
     
     public void update () {
         gm.updatePoints();
+        if(points != null)
+            points.update();
         
         progressBar.setValue(gm.getPlayer1Score() + gm.getPlayer2Score());
         progressBar.setString(progressBar.getValue() + "/8");
@@ -588,7 +604,8 @@ public class Game extends javax.swing.JFrame {
         System.out.println("");
 
         gm.getDeck().mix();
-
+        gm.getDeck().debug();
+        
         gm.setPlayer1Score(0);
         gm.setPlayer2Score(0);
 
@@ -617,6 +634,8 @@ public class Game extends javax.swing.JFrame {
             buttons[i].setIcon(icons[8]);
         }
 
+        points.reset();
+        
         update();
     }
 

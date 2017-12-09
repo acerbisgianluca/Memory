@@ -60,9 +60,12 @@ public final class Deck implements Serializable{
         
         //enable card
         for(i = 0; i < this.N; i++)
-            deck[i].setEnabled(true);
+            deck[i].setEnabled(true);        
+    }
+    
+    public void debug(){
+        int i, j;
         
-        //DEBUG
         System.out.println("Nuovo campo:");
         for(i = 0; i < this.N; i++){
             for(j = 0; j < this.N; j++) {

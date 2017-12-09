@@ -5,6 +5,11 @@
  */
 package Memory;
 
+import java.awt.Image;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -13,6 +18,10 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Points extends javax.swing.JFrame {
 
+    private GameManager gm;
+    
+    private Image logo;
+    
     /**
      * Creates new form Points
      * @param gm
@@ -20,14 +29,35 @@ public class Points extends javax.swing.JFrame {
     public Points(GameManager gm) {
         initComponents();
         
+        try {
+            logo = ImageIO.read(getClass().getResource("/Memory/img/logo.png"));
+        } catch (IOException ex) {
+            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        setIconImage(logo);
+        
+        this.gm = gm;
+        
+        update();
+    }
+
+    public void update(){
         int round = gm.getPlayer1Round() + gm.getPlayer2Round() + 1;
+        
+        reset();
         
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setColumnIdentifiers(new Object[] {"Round", gm.getPlayer1Name(), gm.getPlayer2Name()});        
         for(int i = 0; i < round; i++)
             model.addRow(new Object[] {i + 1, gm.getPoints()[i][0], gm.getPoints()[i][1]});
     }
-
+    
+    public void reset() {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        
+        model.setRowCount(0);
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -42,7 +72,6 @@ public class Points extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Memory: Overwatch Edition");
         setType(java.awt.Window.Type.POPUP);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -59,7 +88,7 @@ public class Points extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false
