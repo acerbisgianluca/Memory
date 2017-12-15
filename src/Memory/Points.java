@@ -18,9 +18,11 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Points extends javax.swing.JFrame {
 
-    private GameManager gm;
+    private final GameManager gm;
     
     private Image logo;
+    
+    private DefaultTableModel model;
     
     /**
      * Creates new form Points
@@ -38,22 +40,35 @@ public class Points extends javax.swing.JFrame {
         
         this.gm = gm;
         
-        update();
+        model = (DefaultTableModel) table.getModel();
+        model.setColumnIdentifiers(new Object[] {"Round", gm.getPlayer1Name(), gm.getPlayer2Name()}); 
     }
 
-    public void update(){
+    public void restore(){
         int round = gm.getPlayer1Round() + gm.getPlayer2Round() + 1;
         
-        reset();
-        
-        DefaultTableModel model = (DefaultTableModel) table.getModel();
-        model.setColumnIdentifiers(new Object[] {"Round", gm.getPlayer1Name(), gm.getPlayer2Name()});        
+        model = (DefaultTableModel) table.getModel();
+            
         for(int i = 0; i < round; i++)
             model.addRow(new Object[] {i + 1, gm.getPoints()[i][0], gm.getPoints()[i][1]});
     }
     
+    public void update(){
+        int round = gm.getPlayer1Round() + gm.getPlayer2Round() + 1;
+        
+        model = (DefaultTableModel) table.getModel();
+        
+        if(model.getRowCount() < round)
+            model.addRow(new Object[] {round, gm.getPoints()[round - 1][0], gm.getPoints()[round - 1][1]});
+        else {
+            model.setValueAt(round, round - 1, 0);
+            model.setValueAt(gm.getPoints()[round - 1][0], round - 1, 1);
+            model.setValueAt(gm.getPoints()[round - 1][1], round - 1, 2);
+        }
+    }
+    
     public void reset() {
-        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model = (DefaultTableModel) table.getModel();
         
         model.setRowCount(0);
     }

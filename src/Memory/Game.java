@@ -50,6 +50,8 @@ public class Game extends javax.swing.JFrame {
         
         this.gm = gm;
         
+        points = new Points(this.gm);
+        
         icons = new ImageIcon[(gm.getN_CARDS() / 2) + 1];
         genIcon();
         
@@ -70,6 +72,7 @@ public class Game extends javax.swing.JFrame {
                     buttons[i].setEnabled(false);
                     buttons[i].setIcon(icons[gm.getDeck().findCard(i).getCode()]);
                 }
+            points.restore();
         }
         
         gm.getDeck().debug();
@@ -480,15 +483,10 @@ public class Game extends javax.swing.JFrame {
     }//GEN-LAST:event_menuSaveActionPerformed
 
     private void menuPointsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPointsActionPerformed
-        if(points == null) {
-            points = new Points(gm);
-            points.setVisible(true);
-        }
-        else {
+        if(points.isVisible())
             points.update();
-            points.setVisible(true);
-        }
-            
+        else
+            points.setVisible(true);            
     }//GEN-LAST:event_menuPointsActionPerformed
 
     public void pressButton(JButton button, int pos) {
@@ -558,8 +556,7 @@ public class Game extends javax.swing.JFrame {
     
     public void update () {
         gm.updatePoints();
-        if(points != null)
-            points.update();
+        points.update();
         
         progressBar.setValue(gm.getPlayer1Score() + gm.getPlayer2Score());
         progressBar.setString(progressBar.getValue() + "/8");
@@ -603,6 +600,9 @@ public class Game extends javax.swing.JFrame {
     public void reset() {
         System.out.println("");
 
+        if(gm.getPlayer1Score() + gm.getPlayer2Score() != 8)
+            points.reset();
+        
         gm.getDeck().mix();
         gm.getDeck().debug();
         
@@ -623,6 +623,8 @@ public class Game extends javax.swing.JFrame {
             }
             else
                 System.exit(0);  
+            
+            points.reset();
         }
         
         JOptionPane.showMessageDialog(rootPane, "Il campo è stato rigenerato!", "AVVISO", JOptionPane.INFORMATION_MESSAGE);
@@ -633,8 +635,6 @@ public class Game extends javax.swing.JFrame {
             buttons[i].setEnabled(true);
             buttons[i].setIcon(icons[8]);
         }
-
-        points.reset();
         
         update();
     }
