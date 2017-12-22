@@ -5,6 +5,7 @@
  */
 package Memory;
 
+import com.acerbisgianluca.filemanager.FileManager;
 import java.awt.Image;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -236,7 +237,18 @@ public class Start extends javax.swing.JFrame {
     }//GEN-LAST:event_btnPlayActionPerformed
 
     private void btnLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadActionPerformed
-        ObjectInputStream stream = null;
+        FileManager fm = new FileManager();
+        try {
+            gm = (GameManager) fm.fileToObject("savedMatch.txt");
+            this.setVisible(false);
+        
+            Game game = new Game(gm, this, true);
+            game.setVisible(true);
+        } catch (IOException | ClassNotFoundException ex) {
+            lblError.setText("Nessun salvataggio trovato!");
+        }
+        
+        /*ObjectInputStream stream = null;
         try {
             stream = new ObjectInputStream(new FileInputStream("savedGame.txt"));
             gm = (GameManager) stream.readObject();
@@ -248,7 +260,7 @@ public class Start extends javax.swing.JFrame {
             game.setVisible(true);
         } catch (IOException | ClassNotFoundException ex) {
             lblError.setText("Nessun salvataggio trovato!");
-        }
+        }*/
     }//GEN-LAST:event_btnLoadActionPerformed
 
     public void reset() {

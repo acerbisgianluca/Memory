@@ -5,6 +5,7 @@
  */
 package Memory;
 
+import com.acerbisgianluca.filemanager.FileManager;
 import java.awt.Image;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -648,7 +649,15 @@ public class Game extends javax.swing.JFrame {
         savedGM.setFirst(true);
         savedGM.setUnLock(true);
         
-        ObjectOutputStream stream = null;
+        FileManager fm = new FileManager();
+        try {
+            fm.objectToFile(savedGM, "savedMatch.txt");
+            JOptionPane.showMessageDialog(rootPane, "La partita è stata salvata!", "PARTITA SALVATA", JOptionPane.INFORMATION_MESSAGE);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(rootPane, "C'è stato un errore durante il salvataggio della partita, riprova!", "PARTITA NON SALVATA", JOptionPane.ERROR_MESSAGE);
+        }
+        
+        /*ObjectOutputStream stream = null;
         
         try {
             stream = new ObjectOutputStream(new FileOutputStream("savedGame.txt"));
@@ -658,7 +667,7 @@ public class Game extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "La partita è stata salvata!", "PARTITA SALVATA", JOptionPane.INFORMATION_MESSAGE);
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(rootPane, "C'è stato un errore durante il salvataggio della partita, riprova!", "PARTITA NON SALVATA", JOptionPane.ERROR_MESSAGE);
-        }
+        }*/
     }
     
     public int exit() {
