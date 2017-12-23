@@ -131,8 +131,8 @@ public class Game extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Memory: Overwatch Edition");
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setIconImages(null);
-        setResizable(false);
 
         panel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         panel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
